@@ -9,13 +9,13 @@ const densities = ["comfortable", "compact"] as const;
 export default function ThemesPage() {
   return (
     <main>
-      <PageIntro eyebrow="System / v3" title="Themes and density" count="3 themes · 2 densities" description="Theme and density are independent document contracts. Dark mode remains an ancestor class, so portalled overlays inherit the active document tokens." />
+      <PageIntro eyebrow="System / v3" title="Themes and density" count="3 themes · 2 densities" description="Theme and density are independent application-shell contracts. Dark mode remains an ancestor class, while MivamaProvider owns the shared UI shell and portal container." />
       <div className="catalog">
-        <Section index="V3.1" title="Document contract" description="Change the attributes on the document root. Product and comfortable are the stable defaults.">
+        <Section index="V3.1" title="Provider contract" description="Change the MivamaProvider theme and density. Product and comfortable are the stable defaults.">
           <div className="contract-panel">
             <ThemeControls />
-            <code>{'<html data-mivama-theme="product" data-density="comfortable">'}</code>
-            <p className="sample-copy">Keep <code>className=&quot;dark&quot;</code> independent. Because the contract lives on <code>html</code>, content rendered through a portal uses the same active tokens.</p>
+            <code>{'<MivamaProvider theme="product" density="comfortable">'}</code>
+            <p className="sample-copy">Keep <code>className=&quot;dark&quot;</code> independent on an ancestor. Portalled overlays use the provider-owned container and therefore remain inside the same Mivama theme and density shell.</p>
           </div>
         </Section>
 
