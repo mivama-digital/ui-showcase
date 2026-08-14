@@ -8,14 +8,15 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit --incremental false",
+    "check:ui-coverage": "node scripts/check-ui-coverage.mjs",
     "test:e2e": "playwright test --grep-invert @visual",
     "test:a11y": "playwright test tests/accessibility.spec.ts",
     "test:visual": "PLAYWRIGHT_PRODUCTION=1 playwright test --grep @visual",
     "doctor": "react-doctor -y --no-score --blocking error",
-    "verify": "npm run lint && npm run typecheck && npm run doctor && npm run build && npm run test:e2e"
+    "verify": "npm run lint && npm run typecheck && npm run check:ui-coverage && npm run doctor && npm run build && npm run test:e2e"
   },
   "dependencies": {
-    "@mivama/ui": "file:../mivama-ui/mivama-ui-3.0.0.tgz",
+    "@mivama/ui": "git+https://github.com/mivama-digital/ui.git#main",
     "lucide-react": "^0.511.0",
     "next": "16.2.12",
     "react": "19.2.4",
