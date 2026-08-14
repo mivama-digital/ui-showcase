@@ -1,5 +1,5 @@
 import { readdir, readFile } from "node:fs/promises";
-import { join, relative } from "node:path";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -15,7 +15,14 @@ const ignoredExports = new Set([
   "./themes.css",
 ]);
 
+const primarySymbolOverrides = new Map([
+  ["./typography", "Heading"],
+]);
+
 function exportToPrimarySymbol(subpath) {
+  const override = primarySymbolOverrides.get(subpath);
+  if (override) return override;
+
   return subpath
     .replace(/^\.\//, "")
     .split("-")
@@ -62,16 +69,11 @@ const componentExports = Object.keys(uiPackage.exports ?? {})
 
 const files = await collectTsxFiles(appRoot);
 const importedSymbols = new Set();
-const importLocations = new Map();
 
 for (const file of files) {
   const source = await readFile(file, "utf8");
-  const imports = collectMivamaImports(source);
-  for (const imported of imports) {
+  for (const imported of collectMivamaImports(source)) {
     importedSymbols.add(imported);
-    const locations = importLocations.get(imported) ?? [];
-    locations.push(relative(root, file));
-    importLocations.set(imported, locations);
   }
 }
 
