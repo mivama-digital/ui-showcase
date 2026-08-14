@@ -15,7 +15,7 @@
     "verify": "npm run lint && npm run typecheck && npm run doctor && npm run build && npm run test:e2e"
   },
   "dependencies": {
-    "@mivama/ui": "file:../mivama-ui/mivama-ui-3.0.0.tgz",
+    "@mivama/ui": "git+https://github.com/mivama-digital/ui.git#main",
     "lucide-react": "^0.511.0",
     "next": "16.2.12",
     "react": "19.2.4",
