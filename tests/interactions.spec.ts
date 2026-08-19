@@ -1,26 +1,29 @@
 import { expect, test } from "@playwright/test";
 
-test("theme and density controls update the document contract independently of dark mode", async ({ page }) => {
+test("theme and density controls update the provider contract independently of dark mode", async ({ page }) => {
   await page.goto("/themes");
   const root = page.locator("html");
+  const shell = page.locator("[data-mivama-shell]");
 
-  await expect(root).toHaveAttribute("data-mivama-theme", "product");
-  await expect(root).toHaveAttribute("data-density", "comfortable");
+  await expect(shell).toHaveCount(1);
+  await expect(shell).toHaveAttribute("data-mivama-theme", "product");
+  await expect(shell).toHaveAttribute("data-density", "comfortable");
   await page.getByRole("button", { name: "Use dark theme" }).click();
   await page.getByRole("combobox", { name: "Theme", exact: true }).selectOption("editorial");
   await page.getByRole("combobox", { name: "Density", exact: true }).selectOption("compact");
 
-  await expect(root).toHaveAttribute("data-mivama-theme", "editorial");
-  await expect(root).toHaveAttribute("data-density", "compact");
+  await expect(shell).toHaveAttribute("data-mivama-theme", "editorial");
+  await expect(shell).toHaveAttribute("data-density", "compact");
   await expect(root).toHaveClass(/dark/);
 });
 
-test("dialog traps focus, closes with Escape, and restores focus", async ({ page }) => {
+test("dialog traps focus inside the provider portal and restores focus", async ({ page }) => {
   await page.goto("/overlays/dialog");
+  const shell = page.locator("[data-mivama-shell]");
   const trigger = page.getByRole("button", { name: "Invite collaborators" });
 
   await trigger.click();
-  const dialog = page.getByRole("dialog", { name: "Invite collaborators" });
+  const dialog = shell.getByRole("dialog", { name: "Invite collaborators" });
   const email = dialog.getByRole("textbox", { name: "Email address" });
   const close = dialog.getByRole("button", { name: "Close" });
   await expect(dialog).toBeVisible();
@@ -36,12 +39,13 @@ test("dialog traps focus, closes with Escape, and restores focus", async ({ page
   await expect(trigger).toBeFocused();
 });
 
-test("sheet closes with Escape and restores focus", async ({ page }) => {
+test("sheet closes from the provider portal and restores focus", async ({ page }) => {
   await page.goto("/overlays/sheet");
+  const shell = page.locator("[data-mivama-shell]");
   const trigger = page.getByRole("button", { name: "Open right" });
 
   await trigger.click();
-  const dialog = page.getByRole("dialog", { name: "Right sheet" });
+  const dialog = shell.getByRole("dialog", { name: "Right sheet" });
   const firstSwitch = dialog.getByRole("switch", { name: "Email alerts" });
   const close = dialog.getByRole("button", { name: "Close" });
   await expect(dialog).toBeVisible();
@@ -70,14 +74,15 @@ test("tabs support arrow-key navigation", async ({ page }) => {
   await expect(activity).toHaveAttribute("aria-selected", "true");
 });
 
-test("mobile sidebar opens as a sheet and restores focus", async ({ page }) => {
+test("mobile sidebar opens in the provider portal and restores focus", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 900 });
   await page.goto("/layout");
+  const shell = page.locator("[data-mivama-shell]");
   const trigger = page.getByRole("button", { name: "Toggle showcase sidebar" });
   await expect(page.locator('[data-slot="sidebar"]')).toHaveCount(0);
 
   await trigger.click();
-  const sidebar = page.getByRole("dialog", { name: "Sidebar" });
+  const sidebar = shell.getByRole("dialog", { name: "Sidebar" });
   await expect(sidebar).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(sidebar).toBeHidden();
