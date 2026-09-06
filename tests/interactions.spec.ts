@@ -83,3 +83,51 @@ test("mobile sidebar opens as a sheet and restores focus", async ({ page }) => {
   await expect(sidebar).toBeHidden();
   await expect(trigger).toBeFocused();
 });
+
+test("latest overlay primitives open and close through their public interactions", async ({ page }) => {
+  await page.goto("/overlays/primitives");
+
+  const menuTrigger = page.getByRole("button", { name: "Open project menu" });
+  await menuTrigger.click();
+  await expect(page.getByRole("menuitem", { name: "Edit details" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(menuTrigger).toBeFocused();
+
+  const popoverTrigger = page.getByRole("button", { name: "Open status popover" });
+  await popoverTrigger.click();
+  await expect(page.getByText("The current showcase is synchronized against the latest @mivama/ui main branch.")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(popoverTrigger).toBeFocused();
+
+  const alertTrigger = page.getByRole("button", { name: "Delete release" }).first();
+  await alertTrigger.click();
+  const alertDialog = page.getByRole("alertdialog", { name: "Delete this release?" });
+  await expect(alertDialog).toBeVisible();
+  await alertDialog.getByRole("button", { name: "Cancel" }).click();
+  await expect(alertDialog).toBeHidden();
+  await expect(alertTrigger).toBeFocused();
+});
+
+test("accordion and collapsible expose their content through disclosure controls", async ({ page }) => {
+  await page.goto("/layout");
+
+  const accordionTrigger = page.getByRole("button", { name: "How does delivery work?" });
+  const accordionContent = page.getByText("Mivama keeps strategy, implementation, and operation inside one delivery system.");
+  await expect(accordionContent).toBeHidden();
+  await accordionTrigger.click();
+  await expect(accordionContent).toBeVisible();
+
+  const collapsibleTrigger = page.getByRole("button", { name: "Toggle release details" });
+  const releaseCopy = page.getByText("The showcase tracks the current UI main branch and verifies coverage whenever the lockfile is synchronized.");
+  await expect(releaseCopy).toBeVisible();
+  await collapsibleTrigger.click();
+  await expect(releaseCopy).toBeHidden();
+});
+
+test("toast actions render transient feedback in the shared viewport", async ({ page }) => {
+  await page.goto("/feedback");
+
+  await page.getByRole("button", { name: "Success toast" }).click();
+  await expect(page.getByText("Changes saved")).toBeVisible();
+  await expect(page.getByText("The latest configuration is now active.")).toBeVisible();
+});
