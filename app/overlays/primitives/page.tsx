@@ -30,13 +30,13 @@ export default function OverlayPrimitivesPage() {
   return (
     <main>
       <PageIntro
-        eyebrow="Components / 08"
+        eyebrow="Components / 10"
         title="Overlay primitives"
         count="3 component families"
         description="Menus, anchored popovers, and destructive confirmations built on the latest Base UI-backed Mivama primitives."
       />
       <div className="catalog">
-        <Section index="08.1" title="DropdownMenu" description="A compact action menu with labels, separators, default items, and destructive actions.">
+        <Section index="10.1" title="DropdownMenu" description="A compact action menu with labels, separators, default items, and destructive actions.">
           <div className="demo-grid single">
             <Panel name="DropdownMenu / project actions">
               <DropdownMenu>
@@ -53,7 +53,7 @@ export default function OverlayPrimitivesPage() {
           </div>
         </Section>
 
-        <Section index="08.2" title="Popover" description="Anchored contextual content uses the shared portal container and supports accessible title and description semantics.">
+        <Section index="10.2" title="Popover" description="Anchored contextual content uses the shared portal container and supports accessible title and description semantics.">
           <div className="demo-grid single">
             <Panel name="Popover / release status">
               <Popover>
@@ -67,7 +67,7 @@ export default function OverlayPrimitivesPage() {
           </div>
         </Section>
 
-        <Section index="08.3" title="AlertDialog" description="Confirmation dialogs make destructive decisions explicit and keep focus inside the modal interaction until resolved.">
+        <Section index="10.3" title="AlertDialog" description="Confirmation dialogs make destructive decisions explicit and keep focus inside the modal interaction until resolved.">
           <div className="demo-grid single">
             <Panel name="AlertDialog / destructive confirmation">
               <AlertDialog>
