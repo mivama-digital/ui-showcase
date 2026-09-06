@@ -7,7 +7,7 @@ export const componentPages = [
   { href: "/navigation", label: "Navigation", description: "Breadcrumb, Pagination, and Tabs defaults" },
   { href: "/overlays/dialog", label: "Dialog", description: "Official Dialog composition and behavior" },
   { href: "/overlays/sheet", label: "Sheet", description: "Official Sheet composition and placement" },
-  { href: "/overlays/primitives", label: "Overlay primitives", description: "Dropdown menus, popovers, and alert dialogs" },
   { href: "/attachments", label: "Attachments", description: "Official Attachment compositions and states" },
   { href: "/layout", label: "Layout", description: "Sidebar, grids, disclosure, tables, scroll areas, motion, and Tooltip" },
+  { href: "/overlays/primitives", label: "Overlay primitives", description: "Dropdown menus, popovers, and alert dialogs" },
 ] as const;
