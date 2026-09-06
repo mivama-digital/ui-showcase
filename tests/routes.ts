@@ -8,6 +8,7 @@ export const showcaseRoutes = [
   "/navigation",
   "/overlays/dialog",
   "/overlays/sheet",
+  "/overlays/primitives",
   "/attachments",
   "/layout",
 ] as const;
