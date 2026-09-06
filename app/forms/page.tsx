@@ -12,6 +12,7 @@ import {
   Input,
   Select,
   Separator,
+  Slider,
   Switch,
   Textarea,
 } from "@mivama/ui";
@@ -21,7 +22,7 @@ import { Fixture, PageIntro, Panel, Section } from "../_components/showcase";
 export default function FormsPage() {
   return (
     <main>
-      <PageIntro eyebrow="Components / 04" title="Forms" count="12 exports" description="Native controls, structured fields, choices, and Base UI switch states in labeled, accessible fixtures." />
+      <PageIntro eyebrow="Components / 04" title="Forms" count="7 component families" description="Native controls, structured fields, choices, switches, and sliders in labeled, accessible fixtures." />
       <div className="catalog">
         <Section index="04.1" title="Input" description="Representative native types plus disabled, read-only, required, and invalid states.">
           <div className="demo-grid">
@@ -77,7 +78,7 @@ export default function FormsPage() {
           </div>
         </Section>
 
-        <Section index="04.4" title="Field + Select" description="The new field primitives keep labels, descriptions, validation messages, grouped legends, and native selects consistent without hiding native semantics.">
+        <Section index="04.4" title="Field + Select" description="The field primitives keep labels, descriptions, validation messages, grouped legends, and native selects consistent without hiding native semantics.">
           <div className="demo-grid">
             <Panel name="Field / complete composition">
               <Field>
@@ -125,6 +126,25 @@ export default function FormsPage() {
                 <label className="switch-row"><Choice type="radio" defaultChecked name="density" value="comfortable" /> Comfortable</label>
                 <label className="switch-row"><Choice type="radio" name="density" value="compact" /> Compact</label>
               </ChoiceGroup>
+            </Panel>
+          </div>
+        </Section>
+
+        <Section index="04.6" title="Slider" description="Single-value sliders expose the current Base UI behavior with keyboard, pointer, min/max, step, and disabled states.">
+          <div className="demo-grid">
+            <Panel name="Slider / default">
+              <div className="column">
+                <span className="sample-copy">Project confidence</span>
+                <Slider aria-label="Project confidence" defaultValue={[64]} />
+              </div>
+            </Panel>
+            <Panel name="Slider / stepped and disabled">
+              <div className="column">
+                <span className="sample-copy">Review threshold</span>
+                <Slider aria-label="Review threshold" defaultValue={[40]} min={0} max={100} step={10} />
+                <span className="sample-copy">Locked threshold</span>
+                <Slider aria-label="Locked threshold" defaultValue={[75]} disabled />
+              </div>
             </Panel>
           </div>
         </Section>
