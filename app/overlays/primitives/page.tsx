@@ -40,7 +40,7 @@ export default function OverlayPrimitivesPage() {
           <div className="demo-grid single">
             <Panel name="DropdownMenu / project actions">
               <DropdownMenu>
-                <DropdownMenuTrigger render={<Button variant="outline" />}>Open project menu</DropdownMenuTrigger>
+                <DropdownMenuTrigger render={<Button variant="outline">Open project menu</Button>} />
                 <DropdownMenuContent>
                   <DropdownMenuLabel>Project</DropdownMenuLabel>
                   <DropdownMenuItem>Edit details</DropdownMenuItem>
@@ -57,7 +57,7 @@ export default function OverlayPrimitivesPage() {
           <div className="demo-grid single">
             <Panel name="Popover / release status">
               <Popover>
-                <PopoverTrigger render={<Button variant="outline" />}>Open status popover</PopoverTrigger>
+                <PopoverTrigger render={<Button variant="outline">Open status popover</Button>} />
                 <PopoverContent>
                   <PopoverTitle>Release status</PopoverTitle>
                   <PopoverDescription>The current showcase is synchronized against the latest @mivama/ui main branch.</PopoverDescription>
@@ -71,7 +71,7 @@ export default function OverlayPrimitivesPage() {
           <div className="demo-grid single">
             <Panel name="AlertDialog / destructive confirmation">
               <AlertDialog>
-                <AlertDialogTrigger render={<Button variant="destructive" />}>Delete release</AlertDialogTrigger>
+                <AlertDialogTrigger render={<Button variant="destructive">Delete release</Button>} />
                 <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>Delete this release?</AlertDialogTitle>
