@@ -122,8 +122,8 @@ export default function LayoutPage() {
               <Panel name="BentoGrid / mixed spans">
                 <BentoGrid>
                   <BentoGridItem span={2}><div className="column"><Badge>Primary</Badge><h3>Wide product story</h3><p>Span two columns when the composition needs a dominant card.</p></div></BentoGridItem>
-                  <BentoGridItem><div className="column"><Badge variant="secondary">Metric</Badge><strong>41 stable families</strong></div></BentoGridItem>
-                  <BentoGridItem><div className="column"><Badge variant="outline">Status</Badge><strong>Preview ready</strong></div></BentoGridItem>
+                  <BentoGridItem><div className="column"><Badge variant="secondary">Coverage</Badge><strong>All stable families</strong></div></BentoGridItem>
+                  <BentoGridItem><div className="column"><Badge variant="outline">Status</Badge><strong>Registry tracked</strong></div></BentoGridItem>
                 </BentoGrid>
               </Panel>
               <Panel name="EditorialGrid / flowing content">
@@ -181,10 +181,10 @@ export default function LayoutPage() {
             <div className="demo-grid single">
               <Panel name="Collapsible / release details">
                 <Collapsible defaultOpen>
-                  <CollapsibleTrigger render={<Button variant="outline" />}>Toggle release details</CollapsibleTrigger>
+                  <CollapsibleTrigger render={<Button variant="outline">Toggle release details</Button>} />
                   <CollapsibleContent>
                     <div className="column">
-                      <Badge variant="secondary">@mivama/ui 26.9.4</Badge>
+                      <Badge variant="secondary">@mivama/ui · main</Badge>
                       <p className="sample-copy">The showcase tracks the current UI main branch and verifies coverage whenever the lockfile is synchronized.</p>
                     </div>
                   </CollapsibleContent>
