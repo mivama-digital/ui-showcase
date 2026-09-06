@@ -8,9 +8,9 @@ export const showcaseRoutes = [
   "/navigation",
   "/overlays/dialog",
   "/overlays/sheet",
-  "/overlays/primitives",
   "/attachments",
   "/layout",
+  "/overlays/primitives",
 ] as const;
 
 export const themes = ["light", "dark"] as const;
