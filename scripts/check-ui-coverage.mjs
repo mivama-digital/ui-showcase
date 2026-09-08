@@ -17,6 +17,7 @@ const ignoredExports = new Set([
 
 const primarySymbolOverrides = new Map([
   ["./typography", "Heading"],
+  ["./toast", "Toaster"],
 ]);
 
 function exportToPrimarySymbol(subpath) {

@@ -1,9 +1,26 @@
 "use client";
 
 import {
-  Alert, AlertAction, AlertDescription, AlertTitle, Button,
-  Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle,
-  Progress, ProgressLabel, ProgressValue, Skeleton,
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  Button,
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  Progress,
+  ProgressLabel,
+  ProgressValue,
+  Skeleton,
+  Toaster,
+  toast,
 } from "@mivama/ui";
 import { Bell, CircleCheck, Info, Inbox, X } from "lucide-react";
 
@@ -12,7 +29,12 @@ import { PageIntro, Panel, Section } from "../_components/showcase";
 export default function FeedbackPage() {
   return (
     <main>
-      <PageIntro eyebrow="Components / 03" title="Feedback" count="16 exports" description="Alerts, progress values, loading placeholders, and purposeful zero-data states." />
+      <PageIntro
+        eyebrow="Components / 03"
+        title="Feedback"
+        count="6 component families"
+        description="Alerts, progress values, loading placeholders, empty states, avatars, and transient toast feedback."
+      />
       <div className="catalog">
         <Section index="03.1" title="Alert" description="All semantic variants, with icons, an action, and an icon-free structure.">
           <div className="demo-grid single">
@@ -67,6 +89,39 @@ export default function FeedbackPage() {
             </Panel>
             <Panel name="Empty / default media">
               <Empty><EmptyHeader><EmptyMedia><div className="empty-illustration">00</div></EmptyMedia><EmptyTitle>No results</EmptyTitle><EmptyDescription>Adjust the filters or start with a new search.</EmptyDescription></EmptyHeader><EmptyContent><Button size="sm">Reset</Button><Button size="sm" variant="outline">Learn more</Button></EmptyContent></Empty>
+            </Panel>
+          </div>
+        </Section>
+
+        <Section index="03.5" title="Avatar" description="Fallback initials, multiple sizes, square variants, and grouped identities without external image dependencies.">
+          <div className="demo-grid">
+            <Panel name="Avatar / sizes and shapes">
+              <div className="stack">
+                <Avatar size="sm"><AvatarFallback>AK</AvatarFallback></Avatar>
+                <Avatar><AvatarFallback>MS</AvatarFallback></Avatar>
+                <Avatar size="lg"><AvatarFallback>UI</AvatarFallback></Avatar>
+                <Avatar size="xl" shape="square"><AvatarFallback>26</AvatarFallback></Avatar>
+              </div>
+            </Panel>
+            <Panel name="Avatar / group">
+              <AvatarGroup>
+                <Avatar><AvatarFallback>AK</AvatarFallback></Avatar>
+                <Avatar><AvatarFallback>MS</AvatarFallback></Avatar>
+                <Avatar><AvatarFallback>JD</AvatarFallback></Avatar>
+              </AvatarGroup>
+            </Panel>
+          </div>
+        </Section>
+
+        <Section index="03.6" title="Toast" description="The singleton toast manager exposes default semantic variants while Toaster owns the shared viewport and portal behavior.">
+          <div className="demo-grid single">
+            <Panel name="Toast / semantic notifications">
+              <div className="stack">
+                <Button onClick={() => toast.success("Changes saved", { description: "The latest configuration is now active." })}>Success toast</Button>
+                <Button variant="outline" onClick={() => toast.warning("Review needed", { description: "Check the release notes before publishing." })}>Warning toast</Button>
+                <Button variant="destructive" onClick={() => toast.error("Sync failed", { description: "Reconnect the integration and retry." })}>Error toast</Button>
+              </div>
+              <Toaster />
             </Panel>
           </div>
         </Section>

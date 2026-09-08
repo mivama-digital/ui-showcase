@@ -1,12 +1,20 @@
 "use client";
 
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
   Badge,
   BentoGrid,
   BentoGridItem,
   Button,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
   Container,
   EditorialGrid,
+  ScrollArea,
   ScrollLayer,
   ScrollScene,
   Section as UiSection,
@@ -25,6 +33,13 @@ import {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -69,7 +84,7 @@ export default function LayoutPage() {
         <SidebarRail />
       </Sidebar>
       <SidebarInset>
-        <PageIntro eyebrow="Components / 09" title="Layout" count="8 component families" description="Application navigation, structural primitives, responsive content grids, scroll scenes, and contextual overlays." />
+        <PageIntro eyebrow="Components / 09" title="Layout" count="12 component families" description="Application navigation, structural primitives, responsive grids, disclosure patterns, data tables, scroll containers, motion scenes, and contextual overlays." />
         <div className="catalog">
           <Section index="09.1" title="Sidebar" description="This page uses the full official Sidebar composition with responsive Sheet behavior, labeled groups, linked menus, collapse controls, footer, rail, and inset content.">
             <div className="demo-grid single">
@@ -107,8 +122,8 @@ export default function LayoutPage() {
               <Panel name="BentoGrid / mixed spans">
                 <BentoGrid>
                   <BentoGridItem span={2}><div className="column"><Badge>Primary</Badge><h3>Wide product story</h3><p>Span two columns when the composition needs a dominant card.</p></div></BentoGridItem>
-                  <BentoGridItem><div className="column"><Badge variant="secondary">Metric</Badge><strong>31 stable families</strong></div></BentoGridItem>
-                  <BentoGridItem><div className="column"><Badge variant="outline">Status</Badge><strong>Preview ready</strong></div></BentoGridItem>
+                  <BentoGridItem><div className="column"><Badge variant="secondary">Coverage</Badge><strong>All stable families</strong></div></BentoGridItem>
+                  <BentoGridItem><div className="column"><Badge variant="outline">Status</Badge><strong>Registry tracked</strong></div></BentoGridItem>
                 </BentoGrid>
               </Panel>
               <Panel name="EditorialGrid / flowing content">
@@ -141,6 +156,75 @@ export default function LayoutPage() {
                     <TooltipContent>Uses the shared Mivama portal and tooltip surface.</TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
+              </Panel>
+            </div>
+          </Section>
+
+          <Section index="09.7" title="Accordion" description="Disclosure groups expose related information with keyboard-accessible triggers and animated panels.">
+            <div className="demo-grid single">
+              <Panel name="Accordion / product FAQ">
+                <Accordion>
+                  <AccordionItem value="delivery">
+                    <AccordionTrigger>How does delivery work?</AccordionTrigger>
+                    <AccordionContent>Mivama keeps strategy, implementation, and operation inside one delivery system.</AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="accessibility">
+                    <AccordionTrigger>Is accessibility included?</AccordionTrigger>
+                    <AccordionContent>Shared components centralize keyboard, focus, semantic, and reduced-motion behavior.</AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </Panel>
+            </div>
+          </Section>
+
+          <Section index="09.8" title="Collapsible" description="A lightweight single disclosure for secondary details that should stay available without dominating a layout.">
+            <div className="demo-grid single">
+              <Panel name="Collapsible / release details">
+                <Collapsible defaultOpen>
+                  <CollapsibleTrigger render={<Button variant="outline">Toggle release details</Button>} />
+                  <CollapsibleContent>
+                    <div className="column">
+                      <Badge variant="secondary">@mivama/ui · main</Badge>
+                      <p className="sample-copy">The showcase tracks the current UI main branch and verifies coverage whenever the lockfile is synchronized.</p>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+              </Panel>
+            </div>
+          </Section>
+
+          <Section index="09.9" title="Table" description="Semantic tables provide shared spacing, headers, rows, captions, hover states, and horizontal overflow behavior.">
+            <div className="demo-grid single">
+              <Panel name="Table / component status">
+                <Table>
+                  <TableCaption>Representative Mivama UI families in the current showcase.</TableCaption>
+                  <TableHeader>
+                    <TableRow><TableHead>Family</TableHead><TableHead>Category</TableHead><TableHead>Status</TableHead></TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow><TableCell>Accordion</TableCell><TableCell>Layout</TableCell><TableCell>Stable</TableCell></TableRow>
+                    <TableRow><TableCell>DropdownMenu</TableCell><TableCell>Overlay</TableCell><TableCell>Stable</TableCell></TableRow>
+                    <TableRow><TableCell>Slider</TableCell><TableCell>Form</TableCell><TableCell>Stable</TableCell></TableRow>
+                  </TableBody>
+                </Table>
+              </Panel>
+            </div>
+          </Section>
+
+          <Section index="09.10" title="ScrollArea" description="Custom scrollbars keep bounded content regions usable without leaking overflow styling into consumers.">
+            <div className="demo-grid single">
+              <Panel name="ScrollArea / activity feed">
+                <ScrollArea className="h-48 rounded-lg border">
+                  <div className="column p-4">
+                    {Array.from({ length: 10 }, (_, index) => (
+                      <div className="column" key={index}>
+                        <strong>Activity {String(index + 1).padStart(2, "0")}</strong>
+                        <span className="sample-copy">Design-system verification completed for this component family.</span>
+                        {index < 9 ? <Separator /> : null}
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </Panel>
             </div>
           </Section>
