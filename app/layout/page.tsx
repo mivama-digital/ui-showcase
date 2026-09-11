@@ -1,23 +1,22 @@
 "use client";
 
+import { useRef } from "react";
 import {
   Badge,
-  BentoGrid,
-  BentoGridItem,
   Button,
-  Container,
-  EditorialGrid,
-  ScrollLayer,
-  ScrollScene,
-  Section as UiSection,
+  DirectionProvider,
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+  ScrollArea,
   Separator,
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarHeader,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarInset,
   SidebarMenu,
   SidebarMenuButton,
@@ -29,19 +28,47 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
+  useSidebar,
 } from "@mivama/ui";
 import { Home, LayoutGrid, Search, Settings, Users } from "lucide-react";
 import Link from "next/link";
 
 import { PageIntro, Panel, Section } from "../_components/showcase";
 
-export default function LayoutPage() {
+function LayoutPageContent() {
+  const { setOpenMobile, isMobile } = useSidebar();
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
   return (
-    <SidebarProvider className="sidebar-page" style={{ "--sidebar-width": "14rem" } as React.CSSProperties}>
-      <Sidebar aria-label="Workspace sidebar" collapsible="icon" role="navigation">
+    <>
+      <Sidebar
+        className="top-14 h-[calc(100svh-3.5rem)]"
+        aria-label="Workspace sidebar"
+        collapsible="icon"
+        role="navigation"
+        {...(isMobile
+          ? {
+              onOpenChange: (open: boolean) => {
+                setOpenMobile(open);
+                if (!open) {
+                  setTimeout(() => {
+                    triggerRef.current?.focus();
+                  }, 0);
+                }
+              },
+            }
+          : {})}
+      >
         <SidebarHeader>
           <SidebarMenu>
-            <SidebarMenuItem><SidebarMenuButton size="lg" tooltip="Mivama OS" render={<Link href="/layout" aria-label="Mivama OS home" />}><LayoutGrid /><span>Mivama OS</span></SidebarMenuButton></SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton size="lg" tooltip="Mivama OS" asChild>
+                <Link href="/layout" aria-label="Mivama OS home">
+                  <LayoutGrid />
+                  <span>Mivama OS</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
         <SidebarContent>
@@ -49,9 +76,30 @@ export default function LayoutPage() {
             <SidebarGroupLabel>Workspace</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                <SidebarMenuItem><SidebarMenuButton isActive tooltip="Overview" render={<Link aria-current="page" href="/layout" />}><Home /><span>Overview</span></SidebarMenuButton></SidebarMenuItem>
-                <SidebarMenuItem><SidebarMenuButton tooltip="Projects" render={<Link href="/content" />}><LayoutGrid /><span>Projects</span></SidebarMenuButton></SidebarMenuItem>
-                <SidebarMenuItem><SidebarMenuButton tooltip="People" render={<Link href="/content" />}><Users /><span>People</span></SidebarMenuButton></SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton isActive tooltip="Overview" asChild>
+                    <Link aria-current="page" href="/layout">
+                      <Home />
+                      <span>Overview</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton tooltip="Projects" asChild>
+                    <Link href="/content">
+                      <LayoutGrid />
+                      <span>Projects</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton tooltip="People" asChild>
+                    <Link href="/content">
+                      <Users />
+                      <span>People</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -59,86 +107,138 @@ export default function LayoutPage() {
             <SidebarGroupLabel>Tools</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                <SidebarMenuItem><SidebarMenuButton tooltip="Search" render={<Link href="/navigation" />}><Search /><span>Search</span></SidebarMenuButton></SidebarMenuItem>
-                <SidebarMenuItem><SidebarMenuButton disabled><LayoutGrid /><span>Disabled item</span></SidebarMenuButton></SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton tooltip="Search" asChild>
+                    <Link href="/navigation">
+                      <Search />
+                      <span>Search</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton disabled>
+                    <LayoutGrid />
+                    <span>Disabled item</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter><SidebarMenu><SidebarMenuItem><SidebarMenuButton tooltip="Settings" render={<Link href="/forms" />}><Settings /><span>Settings</span></SidebarMenuButton></SidebarMenuItem></SidebarMenu></SidebarFooter>
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip="Settings" asChild>
+                <Link href="/forms">
+                  <Settings />
+                  <span>Settings</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
         <SidebarRail />
       </Sidebar>
-      <SidebarInset>
-        <PageIntro eyebrow="Components / 09" title="Layout" count="8 component families" description="Application navigation, structural primitives, responsive content grids, scroll scenes, and contextual overlays." />
-        <div className="catalog">
-          <Section index="09.1" title="Sidebar" description="This page uses the full official Sidebar composition with responsive Sheet behavior, labeled groups, linked menus, collapse controls, footer, rail, and inset content.">
-            <div className="demo-grid single">
+      <SidebarInset className="md:peer-data-[state=expanded]:ml-64 md:peer-data-[state=collapsed]:ml-12 transition-[margin] duration-200 ease-linear">
+        <PageIntro eyebrow="Components / 09" title="Layout" count="6 families" description="Application navigation, resizable panels, scroll areas, separators, directional context, and tooltips." />
+        <div className="px-4 md:px-12 py-4 pb-16">
+          <Section index="09.1" title="Sidebar" description="Live collapsible sidebar with responsive mobile Sheet behavior, labeled groups, and icon tooltips.">
+            <div className="grid grid-cols-1 gap-4">
               <Panel name="Sidebar / live application frame">
-                <div className="sidebar-inset-sample"><div className="stack"><SidebarTrigger aria-label="Toggle showcase sidebar" /><Badge variant="secondary">Live workspace</Badge></div><h3>Project command center</h3><p>The catalog itself is rendered inside SidebarInset. Use the toggle, rail, or Control+B to inspect the official responsive behavior.</p></div>
+                <div className="p-6">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <SidebarTrigger
+                      ref={triggerRef}
+                      aria-label="Toggle showcase sidebar"
+                    />
+                    <Badge variant="secondary">Live workspace</Badge>
+                  </div>
+                  <h3 className="text-base font-semibold mt-4 mb-2">Project command center</h3>
+                  <p className="text-sm text-muted-foreground m-0">The catalog itself is rendered inside SidebarInset. Use the toggle, rail, or Control+B to inspect the responsive behavior.</p>
+                </div>
               </Panel>
             </div>
           </Section>
 
-          <Section index="09.2" title="Separator" description="Horizontal and vertical primitives in layouts with explicit dimensions.">
-            <div className="demo-grid">
-              <Panel name="Separator / horizontal"><p className="sample-copy">Content above</p><Separator className="spaced-separator" /><p className="sample-copy">Content below</p></Panel>
-              <Panel name="Separator / vertical"><div className="separator-demo"><span>Strategy</span><Separator orientation="vertical" /><span>Design</span><Separator orientation="vertical" /><span>Delivery</span></div></Panel>
-            </div>
-          </Section>
-
-          <Section index="09.3" title="Container + Section" description="Shared page gutters, reading widths, section densities, tones, and borders now come directly from the design system.">
-            <div className="demo-grid single">
-              <Panel name="Container / reading inside branded section">
-                <UiSection tone="brand" density="compact" bordered={false}>
-                  <Container size="reading">
-                    <div className="column">
-                      <Badge variant="secondary">Reading container</Badge>
-                      <h3>One structural language across Mivama products</h3>
-                      <p>Container owns width and gutters while Section owns vertical rhythm and surface tone.</p>
-                    </div>
-                  </Container>
-                </UiSection>
+          <Section index="09.2" title="Separator" description="Horizontal and vertical dividers in layouts with explicit dimensions.">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Panel name="Separator / horizontal">
+                <p className="text-xs text-muted-foreground leading-relaxed m-0">Content above separator</p>
+                <Separator className="my-6" />
+                <p className="text-xs text-muted-foreground leading-relaxed m-0">Content below separator</p>
+              </Panel>
+              <Panel name="Separator / vertical">
+                <div className="flex items-center gap-4 h-8 text-xs text-muted-foreground">
+                  <span>Strategy</span>
+                  <Separator orientation="vertical" />
+                  <span>Design</span>
+                  <Separator orientation="vertical" />
+                  <span>Delivery</span>
+                </div>
               </Panel>
             </div>
           </Section>
 
-          <Section index="09.4" title="BentoGrid + EditorialGrid" description="Responsive product and editorial compositions without duplicating layout CSS in consuming applications.">
-            <div className="demo-grid">
-              <Panel name="BentoGrid / mixed spans">
-                <BentoGrid>
-                  <BentoGridItem span={2}><div className="column"><Badge>Primary</Badge><h3>Wide product story</h3><p>Span two columns when the composition needs a dominant card.</p></div></BentoGridItem>
-                  <BentoGridItem><div className="column"><Badge variant="secondary">Metric</Badge><strong>31 stable families</strong></div></BentoGridItem>
-                  <BentoGridItem><div className="column"><Badge variant="outline">Status</Badge><strong>Preview ready</strong></div></BentoGridItem>
-                </BentoGrid>
-              </Panel>
-              <Panel name="EditorialGrid / flowing content">
-                <EditorialGrid>
-                  <div className="column"><Badge variant="secondary">01</Badge><h3>Foundation</h3><p>Tokens and themes establish the visual system.</p></div>
-                  <div className="column"><Badge variant="secondary">02</Badge><h3>Primitives</h3><p>Components keep behavior and accessibility consistent.</p></div>
-                  <div className="column"><Badge variant="secondary">03</Badge><h3>Compositions</h3><p>Shared layouts make product previews faster to assemble.</p></div>
-                </EditorialGrid>
-              </Panel>
-            </div>
-          </Section>
-
-          <Section index="09.5" title="ScrollScene" description="Declarative reveal and parallax layers expose motion intent through data attributes while respecting the design-system motion CSS.">
-            <div className="demo-grid single">
-              <Panel name="ScrollScene / reveal + parallax">
-                <ScrollScene>
-                  <ScrollLayer effect="reveal" distance={24}><div className="column"><Badge>Reveal</Badge><h3>Motion stays declarative</h3></div></ScrollLayer>
-                  <ScrollLayer effect="parallax" direction="down" distance={16}><p className="sample-copy">A secondary layer can move independently without product-specific animation code.</p></ScrollLayer>
-                </ScrollScene>
+          <Section index="09.3" title="Resizable Panels" description="Accessible draggable divider panels for multi-pane application layouts.">
+            <div className="grid grid-cols-1 gap-4">
+              <Panel name="ResizablePanelGroup / split view">
+                <div className="h-48 w-full rounded-lg border border-border">
+                  <ResizablePanelGroup orientation="horizontal">
+                    <ResizablePanel defaultSize={30} minSize={20}>
+                      <div className="flex h-full items-center justify-center p-4 text-sm text-muted-foreground bg-muted/40">
+                        Sidebar pane
+                      </div>
+                    </ResizablePanel>
+                    <ResizableHandle withHandle />
+                    <ResizablePanel defaultSize={70}>
+                      <div className="flex h-full items-center justify-center p-4 text-sm font-medium">
+                        Editor workspace pane
+                      </div>
+                    </ResizablePanel>
+                  </ResizablePanelGroup>
+                </div>
               </Panel>
             </div>
           </Section>
 
-          <Section index="09.6" title="Tooltip" description="The standalone tooltip family is previewed explicitly instead of only appearing indirectly through SidebarMenuButton.">
-            <div className="demo-grid single">
-              <Panel name="Tooltip / explicit composition">
+          <Section index="09.4" title="Scroll Area" description="Custom styled scrollbars providing cross-platform scroll appearance.">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Panel name="ScrollArea / vertical list">
+                <ScrollArea className="h-36 w-full rounded-md border border-border p-3">
+                  <div className="space-y-2 text-sm">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                      <Link
+                        href="#release-note"
+                        key={i}
+                        className="block rounded border-b border-border pb-1 text-muted-foreground hover:text-foreground no-underline focus-visible:outline-2 focus-visible:outline-ring"
+                      >
+                        Release note item #{i + 1} with changelog summary details.
+                      </Link>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </Panel>
+              <Panel name="DirectionProvider / RTL support">
+                <DirectionProvider dir="ltr">
+                  <div className="p-3 border border-border rounded-md text-sm text-muted-foreground">
+                    DirectionProvider sets the text and interaction flow for bidirectional components (LTR and RTL).
+                  </div>
+                </DirectionProvider>
+              </Panel>
+            </div>
+          </Section>
+
+          <Section index="09.5" title="Tooltip" description="Hover and focus triggered contextual popover tips.">
+            <div className="grid grid-cols-1 gap-4">
+              <Panel name="Tooltip / trigger">
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger render={<Button variant="outline" />}>Hover or focus for details</TooltipTrigger>
-                    <TooltipContent>Uses the shared Mivama portal and tooltip surface.</TooltipContent>
+                    <TooltipTrigger asChild>
+                      <Button variant="outline">Hover or focus for details</Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Uses the shared Mivama portal and tooltip surface.</p>
+                    </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </Panel>
@@ -146,6 +246,14 @@ export default function LayoutPage() {
           </Section>
         </div>
       </SidebarInset>
+    </>
+  );
+}
+
+export default function LayoutPage() {
+  return (
+    <SidebarProvider className="min-h-[calc(100svh-3.5rem)]">
+      <LayoutPageContent />
     </SidebarProvider>
   );
 }

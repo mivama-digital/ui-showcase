@@ -13,10 +13,15 @@ const ignoredExports = new Set([
   "./styles.css",
   "./tokens.css",
   "./themes.css",
+  "./hooks/use-direction",
+  "./hooks/use-mobile",
 ]);
 
 const primarySymbolOverrides = new Map([
-  ["./typography", "Heading"],
+  ["./chart", "ChartContainer"],
+  ["./direction", "DirectionProvider"],
+  ["./input-otp", "InputOTP"],
+  ["./resizable", "ResizablePanelGroup"],
 ]);
 
 function exportToPrimarySymbol(subpath) {
@@ -48,7 +53,7 @@ async function collectTsxFiles(directory) {
 
 function collectMivamaImports(source) {
   const imported = new Set();
-  const expression = /import\s*\{([\s\S]*?)\}\s*from\s*["']@mivama\/ui["'];?/g;
+  const expression = /import\s*\{([^}]*)\}\s*from\s*["']@mivama(?:-digital)?\/ui(?:\/[^"']+)?["'];?/g;
 
   for (const match of source.matchAll(expression)) {
     for (const rawSpecifier of match[1].split(",")) {

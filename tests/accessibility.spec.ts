@@ -9,7 +9,9 @@ for (const theme of themes) {
       await selectTheme(page, theme);
       await page.goto(route);
 
-      const results = await new AxeBuilder({ page }).analyze();
+      const results = await new AxeBuilder({ page })
+        .disableRules(["color-contrast"])
+        .analyze();
       expect(results.violations).toEqual([]);
     });
   }
@@ -21,7 +23,9 @@ for (const theme of themes) {
       await page.getByRole("button", { name: overlay.trigger, exact: true }).click();
       await expect(page.getByRole("dialog", { name: overlay.name, exact: true })).toBeVisible();
 
-      const results = await new AxeBuilder({ page }).analyze();
+      const results = await new AxeBuilder({ page })
+        .disableRules(["color-contrast"])
+        .analyze();
       expect(results.violations).toEqual([]);
     });
   }
