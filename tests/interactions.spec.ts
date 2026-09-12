@@ -83,3 +83,18 @@ test("mobile sidebar opens as a sheet and restores focus", async ({ page }) => {
   await expect(sidebar).toBeHidden();
   await expect(trigger).toBeFocused();
 });
+
+test("desktop sidebar is positioned below sticky navbar without overlap", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/layout");
+
+  const sidebarHeader = page.locator('[data-sidebar="header"]');
+  await expect(sidebarHeader).toBeVisible();
+
+  const box = await sidebarHeader.boundingBox();
+  expect(box).not.toBeNull();
+  // Sticky header is h-14 (56px tall). The sidebar header must start at or below y=56.
+  expect(box!.y).toBeGreaterThanOrEqual(56);
+});
+
+
