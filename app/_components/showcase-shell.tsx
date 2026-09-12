@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@mivama/ui";
-import { Moon, Sun } from "lucide-react";
+import { Layers, Moon, Sun } from "lucide-react";
 import { useEffect, useSyncExternalStore } from "react";
 
 import { componentPages } from "./showcase-pages";
@@ -41,48 +41,60 @@ export function ShowcaseShell({ children }: { children: React.ReactNode }) {
       >
         Skip to content
       </a>
-      <nav
-        aria-label="Component pages"
-        className="sticky top-0 z-40 flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-8 min-h-14 px-4 md:px-8 py-2 border-b border-border bg-background/95 backdrop-blur-md overflow-x-clip max-w-full"
-      >
-        <Link
-          className="shrink-0 text-sm font-bold tracking-tight text-foreground no-underline focus-visible:outline-2 focus-visible:outline-ring"
-          href="/"
-        >
-          Mivama UI
-        </Link>
-        <div className="flex w-full md:w-auto items-center gap-1 overflow-x-auto [scrollbar-width:none]">
-          {componentPages.map((page) => {
-            const isActive = pathname === page.href;
-            return (
-              <Link
-                aria-current={isActive ? "page" : undefined}
-                className={`shrink-0 px-2.5 py-1.5 rounded-md text-xs font-medium no-underline transition-colors focus-visible:outline-2 focus-visible:outline-ring ${
-                  isActive
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                }`}
-                href={page.href}
-                key={page.href}
-              >
-                {page.label}
-              </Link>
-            );
-          })}
+      <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+        <div className="grid grid-cols-[1fr_auto] md:grid-cols-[auto_1fr_auto] items-center px-4 md:px-8 lg:px-12 h-auto md:h-14 gap-x-4 md:gap-x-6 max-w-full">
+          <Link
+            className="col-start-1 row-start-1 flex h-12 md:h-14 items-center gap-2.5 text-sm font-semibold tracking-tight text-foreground no-underline hover:opacity-85 transition-opacity focus-visible:outline-2 focus-visible:outline-ring rounded-md shrink-0"
+            href="/"
+          >
+            <div className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-xs">
+              <Layers className="size-4" />
+            </div>
+            <span className="font-semibold text-sm">Mivama UI</span>
+            <span className="inline-flex items-center rounded-full border border-border px-2 py-0.5 text-[10px] font-medium text-muted-foreground bg-muted/40">
+              Showcase
+            </span>
+          </Link>
+
+          <div className="col-start-2 row-start-1 md:col-start-3 md:row-start-1 flex items-center justify-end">
+            <Button
+              aria-label={`Use ${dark ? "light" : "dark"} theme`}
+              aria-pressed={dark}
+              className="h-8 gap-2 px-2.5 text-xs text-muted-foreground hover:text-foreground cursor-pointer"
+              onClick={toggleTheme}
+              size="sm"
+              type="button"
+              variant="ghost"
+            >
+              {dark ? <Sun aria-hidden="true" className="size-4 text-amber-400" /> : <Moon aria-hidden="true" className="size-4" />}
+              <span className="hidden sm:inline">{dark ? "Light" : "Dark"}</span>
+            </Button>
+          </div>
+
+          <nav
+            aria-label="Component pages"
+            className="col-span-2 row-start-2 md:col-span-1 md:col-start-2 md:row-start-1 flex items-center gap-1 overflow-x-auto [scrollbar-width:none] py-1.5 md:py-0 border-t border-border/30 md:border-t-0 min-w-0"
+          >
+            {componentPages.map((page) => {
+              const isActive = pathname === page.href;
+              return (
+                <Link
+                  aria-current={isActive ? "page" : undefined}
+                  className={`shrink-0 px-3 py-1.5 rounded-md text-xs font-medium no-underline transition-all focus-visible:outline-2 focus-visible:outline-ring ${
+                    isActive
+                      ? "bg-muted text-foreground font-semibold shadow-xs"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  }`}
+                  href={page.href}
+                  key={page.href}
+                >
+                  {page.label}
+                </Link>
+              );
+            })}
+          </nav>
         </div>
-        <Button
-          aria-label={`Use ${dark ? "light" : "dark"} theme`}
-          aria-pressed={dark}
-          className="shrink-0 absolute top-2.5 right-4 md:static"
-          onClick={toggleTheme}
-          size="sm"
-          type="button"
-          variant="outline"
-        >
-          {dark ? <Sun aria-hidden="true" className="size-4" /> : <Moon aria-hidden="true" className="size-4" />}
-          <span>{dark ? "Light" : "Dark"}</span>
-        </Button>
-      </nav>
+      </header>
       <div className="focus:outline-none" id="main-content" tabIndex={-1}>
         {children}
       </div>
